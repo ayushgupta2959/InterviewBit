@@ -2,8 +2,7 @@
 using namespace std;
 int firstMissingPositive(vector<int> &A) {
     int n = A.size();
-    cout<<n<<"\n";
-    for(int i=0;i<n;++i) if(A[i]<1 || A[i]>(n+1)) A[i] = 0;
+    for(int i=0;i<n;++i) if(A[i]<1 || A[i]>(n)) A[i] = 0;
     for(int i=0;i<n;++i) {
         if(A[i]){
             int t = abs(A[i]);
@@ -12,9 +11,9 @@ int firstMissingPositive(vector<int> &A) {
             else A[t-1] = -A[t-1];
         }
     }
-    for(int i=0;i<n;++i) cout<<A[i]<<" ";
-    cout<<"\n";
-    for(int i=0;i<n;++i) if(A[i]>=0) return (i+1);
+    int i=0;
+    for(;i<n;++i) if(A[i]>=0) break;
+    return (i+1);
 }
 int main(){
     ios_base::sync_with_stdio(false);
