@@ -1,6 +1,5 @@
-#include<bits/stdc++.h>
-using namespace std;
-vector<int> subUnsort(vector<int> &A) {
+vector<int> Solution::subUnsort(vector<int> &A) {
+    /*
     int n = A.size();
     int max_so_far = A[0];
     int e;
@@ -34,17 +33,31 @@ vector<int> subUnsort(vector<int> &A) {
         i++;
     }
     return {s,e};
-}
-
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    int x;
-    vector<int> A;
-    while(cin>>x) A.emplace_back(x);
-    vector<int> result = subUnsort(A);
-    for(auto x:result) cout<<x<<" ";
-    return 0;
+    */
+    int s,e,n,i;
+    n = A.size();
+    i=0;
+    s=-1;
+    e=-1;
+    while(i<(n-1) && A[i]<=A[i+1]) i++;
+    if(i==n-1) return {-1};
+    s = i;
+    i = n-1;
+    while(i>s+1 && A[i]>=A[i-1]) i--;
+    e = i;
+    int mx,mn;
+    mx = INT_MIN;
+    mn = INT_MAX;
+    for(i=s;i<=e;++i){
+        mx = max(mx,A[i]);
+        mn = min(mn,A[i]);
+    }
+    //cout<<s<<" "<<e<<" "<<mx<<" "<<mn<<"\n";
+    i = s-1;
+    while(i>=0 && A[i]>mn) i--;
+    s = i+1;
+    i = e+1;
+    while(i<n && A[i]<mx) i++;
+    e = i-1;
+    return {s,e};
 }
