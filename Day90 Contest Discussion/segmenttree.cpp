@@ -26,7 +26,6 @@ Explanation:
     Fourth Query find sum(A[3],A[4],A[5])
 */
 
-
 vector<int> stv; // segment tree of values
 vector<int> stc; // segment tree storing the count of elements
 
@@ -43,7 +42,7 @@ void build(int p,int tl,int tr,vector<int> A){
     }
     int tm = (tl+tr)/2;
     build(lc(p),tl,tm,A);
-    if(tm<A.size()) build(rc(p),tm+1,tr,A);
+    if(tm < A.size()) build(rc(p),tm+1,tr,A); //can remove this if condition but its ok
     stv[p] = stv[lc(p)] + stv[rc(p)];
     stc[p] = stc[lc(p)] + stc[rc(p)];
 }
@@ -102,20 +101,24 @@ int sum_query(int p,int tl,int tr,int ql,int qr){
 }
 vector<int> Solution::solve(vector<int> &A, vector<vector<int> > &B) {
     int n = A.size();
+    stv.clear();
+    stc.clear();
     stv.resize(1e6,0);
     stc.resize(1e6,0);
-    int right_index = 2e5;
+    int right_index = 2e5+100; // taken it as more than max possible value even after queries
     build(1,1,right_index,A);
     vector<int> result;
     
+    
     for(auto& q:B){
         if(q[0]==1){
-            int index = find_index(1,1,right_index,stc[1])+1;
-            cout<<index<<"\n";
+            int index = find_index(1,1,right_index,stc[1]) + 1;
+            //cout<<index<<"\n";
             update_index_val(1,1,right_index,index,q[1]);
+            
         }
         else if(q[0]==2){
-            int index = find_index(1,1,stc[1],q[1]);
+            int index = find_index(1,1,right_index,q[1]);
             update_index_val(1,1,right_index,index,q[2]);
         }
         else if(q[0]==3){
